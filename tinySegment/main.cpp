@@ -1,9 +1,9 @@
 /*
- * tinyShifter.cpp
- *
- * Created: 2/23/2020 2:50:16 PM
- * Author : muman
- */ 
+* tinyShifter.cpp
+*
+* Created: 2/23/2020 2:50:16 PM
+* Author : muman
+*/
 
 #define F_CPU 8000000
 
@@ -25,11 +25,12 @@
 
 #define DATA		0
 #define CLOCK		1
-#define LATCH		2 
+#define LATCH		2
 
 ShiftRegister reg(DATA, CLOCK, LATCH, LSBFIRST);
 
 uint8_t patternBuffer[] = {
+	0b00000001,
 	0b11111100,			// 0
 	0b01100000,			// 1
 	0b11011010,			// 2
@@ -40,7 +41,7 @@ uint8_t patternBuffer[] = {
 	0b11100000,			// 7
 	0b11111110,			// 8
 	0b11100110,			// 9
-	0b01101100,			// 
+	0b01101100,			//
 	0b10010010,
 	0b11000110,
 	0b00111010,
@@ -59,17 +60,16 @@ ISR(TIMER1_COMPA_vect)
 	}
 }
 
-static inline void initTimer1(void)
-{
+static void initTimer1(void) {
 	cli();
 	TCCR1 |= (1 << CTC1);  // clear timer on compare match
 	TCCR1 |= (1 << CS13) | (1 << CS12) | (1 << CS11); //clock prescaler 8192
-	OCR1C = 100; // compare match value
+	OCR1C = 150; // compare match value
 	TIMSK |= (1 << OCIE1A); // enable compare match interrupt
 	sei();
 }
 
-void setup() {
+static void setup() {
 	initTimer1();
 	reg.begin();
 	reg.write(0);
@@ -86,17 +86,17 @@ void updateDisplay() {
 	static int index = 0;
 	reg.write(patternBuffer[index]);
 	index = index+1;
-	if (index == 10) {
+	if (index == 11) {
 		index = 0;
 	}
 }
 
 void loop() {
 	
-    while (1) {
-// 		updateDisplay();
-// 		_delay_ms(250);
-    }
+	while (1) {
+		// 		updateDisplay();
+		// 		_delay_ms(250);
+	}
 }
 
 int main(void)
