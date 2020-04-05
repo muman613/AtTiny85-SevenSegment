@@ -22,6 +22,12 @@ enum  {
 	PIN_OUTPUT,
 };
 
+/**
+ * Write a value to the specified pin on PORTB.
+ * 
+ * @param [pin] Pin to write to.
+ * @param [value] HIGH or LOW
+ */
 void digitalWrite(int pin, int value) {
 	if (value == OUTPUT_LOW) {
 		PORTB &= ~(1 << pin);
@@ -29,13 +35,6 @@ void digitalWrite(int pin, int value) {
 		PORTB |= (1 << pin);
 	}
 }
-
-/**
- * Constructor
- */
-//ShiftRegister::ShiftRegister() {
-//
-//}
 
 /**
  * Constructor
@@ -54,6 +53,11 @@ ShiftRegister::~ShiftRegister() {
 
 }
 
+/**
+ * Initialize the shift register. Setting each of the pins according to the
+ * settings of dataPin, clockPin, and latchPin. The shift order is passed through
+ * the order parameter.
+ */
 bool ShiftRegister::begin(int dataPin, int clockPin, int latchPin, int order) {
 	if (dataPin != -1) {
 		_dp = dataPin;
@@ -89,6 +93,7 @@ void ShiftRegister::shiftOut(uint8_t val) {
 //		else
 //			digitalWrite(_dp, (val & (1 << (7 - i))) ? 1 : 0);
 
+		// Toggle the clock pulse
 		digitalWrite(_cp, OUTPUT_HIGH);
 		digitalWrite(_cp, OUTPUT_LOW);
 //		_delay_ms(10);

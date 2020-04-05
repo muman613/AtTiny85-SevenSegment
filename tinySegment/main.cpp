@@ -11,7 +11,6 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <avr/eeprom.h>
-//#include "ArduinoPins.h"
 #include "ShiftRegister.h"
 
 //  1     2   3     4   5
